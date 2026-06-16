@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration - IMMOBILIER BUDGET PLUS</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <h1>🏠 IMMOBILIER BUDGET PLUS</h1>
+                    <p class="slogan">Panneau d'administration</p>
+                </div>
+                <div class="admin-nav">
+                    <a href="index.html" class="btn-primary">← Retour au site</a>
+                    <button onclick="exporterBiens()" class="btn-export">📥 Exporter</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="admin-section">
+        <div class="container">
+            <!-- Statistiques -->
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">🏠</div>
+                    <div class="stat-info">
+                        <h3 id="totalBiens">0</h3>
+                        <p>Biens totaux</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-info">
+                        <h3 id="totalVente">0</h3>
+                        <p>À vendre</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🔑</div>
+                    <div class="stat-info">
+                        <h3 id="totalLocation">0</h3>
+                        <p>À louer</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-info">
+                        <h3 id="valeurTotale">0</h3>
+                        <p>Valeur totale (TND)</p>
+                    </div>
+                </div>
+            </div>
+
+            <h2>Gestion des Biens Immobiliers</h2>
+            
+            <!-- Formulaire d'ajout -->
+            <div class="admin-form">
+                <h3>➕ Ajouter un nouveau bien</h3>
+                <form id="formBien" onsubmit="ajouterBien(event)">
+                    <div class="form-section">
+                        <h4>📋 Informations générales</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Titre du bien *</label>
+                                <input type="text" id="titre" placeholder="Ex: Belle villa moderne avec piscine" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Type de bien *</label>
+                                <select id="type" required>
+                                    <option value="">Sélectionnez...</option>
+                                    <option value="appartement">Appartement</option>
+                                    <option value="maison">Maison</option>
+                                    <option value="villa">Villa</option>
+                                    <option value="terrain">Terrain</option>
+                                    <option value="commerce">Local Commercial</option>
+                                    <option value="bureau">Bureau</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Transaction *</label>
+                                <select id="transaction" required>
+                                    <option value="vente">Vente</option>
+                                    <option value="location">Location</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Prix (TND) *</label>
+                                <input type="number" id="prix" placeholder="Ex: 250000" required>
+                                <small class="form-hint">Montant en Dinars Tunisiens</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>📐 Caractéristiques</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Superficie (m²)</label>
+                                <input type="number" id="superficie" placeholder="Ex: 120">
+                            </div>
+                            <div class="form-group">
+                                <label>Nombre de chambres</label>
+                                <input type="number" id="chambres" placeholder="Ex: 3" min="0">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Salles de bain</label>
+                                <input type="number" id="sallesBain" placeholder="Ex: 2" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Nombre d'étages</label>
+                                <input type="number" id="etages" placeholder="Ex: 2" min="0">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Année de construction</label>
+                                <input type="number" id="annee" placeholder="Ex: 2020" min="1900" max="2024">
+                            </div>
+                            <div class="form-group">
+                                <label>Parking</label>
+                                <select id="parking">
+                                    <option value="non">Non</option>
+                                    <option value="oui">Oui</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>📍 Localisation</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Ville *</label>
+                                <select id="ville" required>
+                                    <option value="">Sélectionnez...</option>
+                                    <option value="Tunis">Tunis</option>
+                                    <option value="Sfax">Sfax</option>
+                                    <option value="Sousse">Sousse</option>
+                                    <option value="Nabeul">Nabeul</option>
+                                    <option value="Hammamet">Hammamet</option>
+                                    <option value="Monastir">Monastir</option>
+                                    <option value="Bizerte">Bizerte</option>
+                                    <option value="Ariana">Ariana</option>
+                                    <option value="Gabès">Gabès</option>
+                                    <option value="Kairouan">Kairouan</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Quartier *</label>
+                                <input type="text" id="quartier" placeholder="Ex: La Marsa" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Adresse complète</label>
+                            <input type="text" id="adresse" placeholder="Ex: Avenue Habib Bourguiba, Résidence Jasmin">
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>📝 Description et images</h4>
+                        <div class="form-group">
+                            <label>Description détaillée *</label>
+                            <textarea id="description" rows="5" 
+                                placeholder="Décrivez le bien en détail : équipements, proximités, avantages..." required></textarea>
+                            <small class="form-hint">Soyez précis et attractif dans votre description</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label>URL de l'image principale</label>
+                            <input type="text" id="image" placeholder="https://exemple.com/image.jpg">
+                            <small class="form-hint">Utilisez des services comme Imgur, Imgbb ou mettez l'URL d'une image</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Images supplémentaires (séparées par des virgules)</label>
+                            <input type="text" id="imagesSupp" placeholder="url1.jpg, url2.jpg, url3.jpg">
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>✨ Équipements et avantages</h4>
+                        <div class="form-checkboxes">
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="equip_climatisation" value="Climatisation">
+                                <span>❄️ Climatisation</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="equip_chauffage" value="Chauffage">
+                                <span>🔥 Chauffage</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="equip_piscine" value="Piscine">
+                                <span>🏊 Piscine</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="equip_jardin" value="Jardin">
+                                <span>🌳 Jardin</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="equip_terrasse" value="Terrasse">
+                                <span>🏖️ Terrasse</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="equip_ascenseur" value="Ascenseur">
+                                <span>🛗 Ascenseur</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="equip_securite" value="Sécurité">
+                                <span>🔒 Sécurité</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="equip_meuble" value="Meublé">
+                                <span>🛋️ Meublé</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary btn-large">
+                            ✅ Ajouter le bien
+                        </button>
+                        <button type="reset" class="btn-reset btn-large">
+                            ↺ Réinitialiser
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Liste des biens en admin -->
+            <div class="admin-list">
+                <div class="admin-list-header">
+                    <h3>📋 Liste de vos biens (<span id="countBiens">0</span>)</h3>
+                    <div class="admin-filters">
+                        <select id="adminTypeFilter" onchange="filtrerBiensAdmin()">
+                            <option value="">Tous les types</option>
+                            <option value="appartement">Appartements</option>
+                            <option value="maison">Maisons</option>
+                            <option value="villa">Villas</option>
+                            <option value="terrain">Terrains</option>
+                            <option value="commerce">Commerces</option>
+                            <option value="bureau">Bureaux</option>
+                        </select>
+                        <select id="adminTransactionFilter" onchange="filtrerBiensAdmin()">
+                            <option value="">Toutes transactions</option>
+                            <option value="vente">Vente</option>
+                            <option value="location">Location</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="adminListeBiens"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 IMMOBILIER BUDGET PLUS - Panneau d'administration</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Afficher les biens et stats au chargement
+        window.addEventListener('load', () => {
+            afficherBiensAdmin();
+            mettreAJourStats();
+        });
+    </script>
+</body>
+</html>

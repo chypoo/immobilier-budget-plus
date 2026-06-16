@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMMOBILIER BUDGET PLUS - Votre Agent Immobilier en Tunisie</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- En-tête -->
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <h1>🏠 IMMOBILIER BUDGET PLUS</h1>
+                    <p class="slogan">Votre partenaire immobilier en Tunisie</p>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#accueil">Accueil</a></li>
+                    <li><a href="#biens">Nos Biens</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#apropos">À Propos</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="admin.html" class="btn-admin">🔐 Admin</a></li>
+                </ul>
+                <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Section Hero -->
+    <section id="accueil" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h2>Trouvez Votre Bien Immobilier Idéal en Tunisie</h2>
+            <p>Expert immobilier de confiance pour tous vos projets d'achat, vente et location</p>
+            <div class="hero-buttons">
+                <a href="#biens" class="btn-primary">Découvrir nos biens</a>
+                <a href="https://wa.me/216842320?text=Bonjour,%20je%20souhaite%20des%20informations%20sur%20vos%20biens%20immobiliers" 
+                   class="btn-whatsapp" target="_blank">
+                    <span class="whatsapp-icon">📱</span> WhatsApp
+                </a>
+            </div>
+        </div>
+        <div class="hero-stats">
+            <div class="stat-item">
+                <h3 id="biensCount">0</h3>
+                <p>Biens disponibles</p>
+            </div>
+            <div class="stat-item">
+                <h3>500+</h3>
+                <p>Clients satisfaits</p>
+            </div>
+            <div class="stat-item">
+                <h3>15+</h3>
+                <p>Ans d'expérience</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Barre de recherche -->
+    <section class="search-section">
+        <div class="container">
+            <h3>🔍 Rechercher votre bien idéal</h3>
+            <div class="search-bar">
+                <select id="typeFilter">
+                    <option value="">Tous les types</option>
+                    <option value="appartement">Appartement</option>
+                    <option value="maison">Maison</option>
+                    <option value="villa">Villa</option>
+                    <option value="terrain">Terrain</option>
+                    <option value="commerce">Local Commercial</option>
+                    <option value="bureau">Bureau</option>
+                </select>
+                
+                <select id="transactionFilter">
+                    <option value="">Vente / Location</option>
+                    <option value="vente">Vente</option>
+                    <option value="location">Location</option>
+                </select>
+                
+                <select id="villeFilter">
+                    <option value="">Toutes les villes</option>
+                    <option value="Tunis">Tunis</option>
+                    <option value="Sfax">Sfax</option>
+                    <option value="Sousse">Sousse</option>
+                    <option value="Nabeul">Nabeul</option>
+                    <option value="Hammamet">Hammamet</option>
+                    <option value="Monastir">Monastir</option>
+                    <option value="Bizerte">Bizerte</option>
+                    <option value="Ariana">Ariana</option>
+                </select>
+                
+                <input type="number" id="budgetMax" placeholder="Budget max (TND)">
+                
+                <button onclick="filtrerBiens()" class="btn-search">
+                    <span>🔍</span> Rechercher
+                </button>
+                
+                <button onclick="reinitialiserFiltre()" class="btn-reset">
+                    ↺ Réinitialiser
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Liste des biens -->
+    <section id="biens" class="biens-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Nos Biens Disponibles</h2>
+                <p class="section-subtitle">Découvrez notre sélection de biens immobiliers en Tunisie</p>
+            </div>
+            
+            <div class="filter-tabs">
+                <button class="tab-btn active" onclick="filtrerParTransaction('')">Tous</button>
+                <button class="tab-btn" onclick="filtrerParTransaction('vente')">À Vendre</button>
+                <button class="tab-btn" onclick="filtrerParTransaction('location')">À Louer</button>
+            </div>
+            
+            <div id="listeBiens" class="biens-grid">
+                <!-- Les biens seront affichés ici dynamiquement -->
+            </div>
+            
+            <div id="aucunBien" class="no-results" style="display: none;">
+                <div class="no-results-icon">🏠</div>
+                <h3>Aucun bien trouvé</h3>
+                <p>Essayez de modifier vos critères de recherche</p>
+                <button onclick="reinitialiserFiltre()" class="btn-primary">Voir tous les biens</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="services-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Nos Services</h2>
+                <p class="section-subtitle">Un accompagnement complet pour tous vos besoins immobiliers</p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="service-card" onclick="ouvrirServiceModal('vente')">
+                    <div class="service-icon">🏡</div>
+                    <h3>Vente de Biens</h3>
+                    <p>Vente rapide et au meilleur prix de votre bien immobilier</p>
+                    <ul class="service-features">
+                        <li>✓ Estimation gratuite</li>
+                        <li>✓ Mise en valeur du bien</li>
+                        <li>✓ Photos professionnelles</li>
+                        <li>✓ Diffusion large</li>
+                        <li>✓ Accompagnement juridique</li>
+                    </ul>
+                    <button class="btn-service">En savoir plus →</button>
+                </div>
+                
+                <div class="service-card" onclick="ouvrirServiceModal('location')">
+                    <div class="service-icon">🔑</div>
+                    <h3>Location & Gestion</h3>
+                    <p>Trouvez le locataire idéal et gérez vos locations en toute sérénité</p>
+                    <ul class="service-features">
+                        <li>✓ Sélection des locataires</li>
+                        <li>✓ Rédaction du bail</li>
+                        <li>✓ État des lieux</li>
+                        <li>✓ Gestion des loyers</li>
+                        <li>✓ Maintenance</li>
+                    </ul>
+                    <button class="btn-service">En savoir plus →</button>
+                </div>
+                
+                <div class="service-card" onclick="ouvrirServiceModal('estimation')">
+                    <div class="service-icon">📊</div>
+                    <h3>Estimation Immobilière</h3>
+                    <p>Évaluation précise et gratuite de votre bien immobilier</p>
+                    <ul class="service-features">
+                        <li>✓ Analyse du marché</li>
+                        <li>✓ Visite du bien</li>
+                        <li>✓ Rapport détaillé</li>
+                        <li>✓ Conseils personnalisés</li>
+                        <li>✓ Sans engagement</li>
+                    </ul>
+                    <button class="btn-service">Estimer mon bien →</button>
+                </div>
+                
+                <div class="service-card" onclick="ouvrirServiceModal('conseil')">
+                    <div class="service-icon">💼</div>
+                    <h3>Conseil & Expertise</h3>
+                    <p>Bénéficiez de notre expertise pour vos projets immobiliers</p>
+                    <ul class="service-features">
+                        <li>✓ Étude de marché</li>
+                        <li>✓ Aide au financement</li>
+                        <li>✓ Optimisation fiscale</li>
+                        <li>✓ Investissement locatif</li>
+                        <li>✓ Stratégie patrimoniale</li>
+                    </ul>
+                    <button class="btn-service">Nous consulter →</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Services -->
+    <div id="serviceModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="fermerServiceModal()">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- Section À Propos -->
+    <section id="apropos" class="apropos-section">
+        <div class="container">
+            <div class="apropos-content">
+                <div class="apropos-image">
+                    <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600" alt="Immobilier Tunisie">
+                    <div class="apropos-badge">
+                        <span class="badge-number">15+</span>
+                        <span class="badge-text">Ans d'expérience</span>
+                    </div>
+                </div>
+                <div class="apropos-text">
+                    <h2>IMMOBILIER BUDGET PLUS</h2>
+                    <h3>Votre expert immobilier en Tunisie</h3>
+                    <p>Depuis plus de 15 ans, <strong>IMMOBILIER BUDGET PLUS</strong> accompagne particuliers et professionnels dans leurs projets immobiliers à travers toute la Tunisie.</p>
+                    
+                    <p>Notre engagement : vous offrir un service de qualité, transparent et personnalisé. Que vous cherchiez à acheter, vendre, louer ou investir, notre équipe d'experts met son savoir-faire à votre service.</p>
+                    
+                    <div class="apropos-values">
+                        <div class="value-item">
+                            <span class="value-icon">✓</span>
+                            <div>
+                                <h4>Expertise Locale</h4>
+                                <p>Connaissance approfondie du marché tunisien</p>
+                            </div>
+                        </div>
+                        <div class="value-item">
+                            <span class="value-icon">✓</span>
+                            <div>
+                                <h4>Accompagnement Complet</h4>
+                                <p>De la recherche jusqu'à la signature</p>
+                            </div>
+                        </div>
+                        <div class="value-item">
+                            <span class="value-icon">✓</span>
+                            <div>
+                                <h4>Disponibilité</h4>
+                                <p>À votre écoute 7j/7</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="#contact" class="btn-primary">Contactez-nous</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Témoignages -->
+    <section class="testimonials-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Nos Clients Témoignent</h2>
+                <p class="section-subtitle">Leur satisfaction est notre meilleure récompense</p>
+            </div>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p>"Service exceptionnel ! J'ai trouvé l'appartement de mes rêves à Tunis en moins d'une semaine. L'équipe est très professionnelle et à l'écoute."</p>
+                    <div class="testimonial-author">
+                        <strong>Amira B.</strong>
+                        <span>Tunis</span>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p>"Vente de ma villa réalisée rapidement et au bon prix. Je recommande vivement leurs services !"</p>
+                    <div class="testimonial-author">
+                        <strong>Mohamed K.</strong>
+                        <span>Sousse</span>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p>"Excellent accompagnement pour mon investissement locatif à Hammamet. Très satisfait du résultat !"</p>
+                    <div class="testimonial-author">
+                        <strong>Sarah L.</strong>
+                        <span>Hammamet</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Contactez-nous</h2>
+                <p class="section-subtitle">Notre équipe est à votre disposition pour répondre à toutes vos questions</p>
+            </div>
+            
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-card">
+                        <div class="contact-icon">📞</div>
+                        <h4>Téléphone</h4>
+                        <p><a href="tel:+216842320">+216 842 320</a></p>
+                        <small>Disponible 7j/7 de 8h à 20h</small>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <div class="contact-icon">📱</div>
+                        <h4>WhatsApp</h4>
+                        <a href="https://wa.me/216842320?text=Bonjour,%20je%20souhaite%20des%20informations" 
+                           class="btn-whatsapp-contact" target="_blank">
+                            Discuter maintenant
+                        </a>
+                        <small>Réponse rapide garantie</small>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <div class="contact-icon">📧</div>
+                        <h4>Email</h4>
+                        <p><a href="mailto:contact@immobilierbudgetplus.tn">contact@immobilierbudgetplus.tn</a></p>
+                        <small>Réponse sous 24h</small>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <div class="contact-icon">📍</div>
+                        <h4>Adresse</h4>
+                        <p>Tunis, Tunisie</p>
+                        <small>Interventions sur toute la Tunisie</small>
+                    </div>
+                    
+                    <div class="contact-social">
+                        <h4>Suivez-nous</h4>
+                        <div class="social-links">
+                            <a href="#" target="_blank" class="social-btn facebook">
+                                <span>f</span> Facebook
+                            </a>
+                            <a href="#" target="_blank" class="social-btn instagram">
+                                <span>📷</span> Instagram
+                            </a>
+                            <a href="https://wa.me/216842320" target="_blank" class="social-btn whatsapp">
+                                <span>📱</span> WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form-container">
+                    <h3>Envoyez-nous un message</h3>
+                    <form class="contact-form" onsubmit="envoyerMessage(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Nom complet *</label>
+                                <input type="text" id="contactNom" placeholder="Votre nom" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Téléphone *</label>
+                                <input type="tel" id="contactTel" placeholder="+216" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Email *</label>
+                            <input type="email" id="contactEmail" placeholder="votre@email.com" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Objet *</label>
+                            <select id="contactObjet" required>
+                                <option value="">Sélectionnez un objet</option>
+                                <option value="achat">Achat d'un bien</option>
+                                <option value="vente">Vendre mon bien</option>
+                                <option value="location">Location</option>
+                                <option value="estimation">Estimation gratuite</option>
+                                <option value="conseil">Demande de conseil</option>
+                                <option value="autre">Autre</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Message *</label>
+                            <textarea id="contactMessage" rows="5" placeholder="Décrivez votre projet..." required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary btn-full">
+                            📧 Envoyer le message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h3>🏠 IMMOBILIER BUDGET PLUS</h3>
+                    <p>Votre partenaire immobilier de confiance en Tunisie depuis plus de 15 ans.</p>
+                    <div class="footer-social">
+                        <a href="#" title="Facebook">📘</a>
+                        <a href="#" title="Instagram">📷</a>
+                        <a href="https://wa.me/216842320" title="WhatsApp" target="_blank">📱</a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#" onclick="ouvrirServiceModal('vente')">Vente de biens</a></li>
+                        <li><a href="#" onclick="ouvrirServiceModal('location')">Location</a></li>
+                        <li><a href="#" onclick="ouvrirServiceModal('estimation')">Estimation gratuite</a></li>
+                        <li><a href="#" onclick="ouvrirServiceModal('conseil')">Conseil</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Liens Rapides</h4>
+                    <ul>
+                        <li><a href="#accueil">Accueil</a></li>
+                        <li><a href="#biens">Nos Biens</a></li>
+                        <li><a href="#apropos">À Propos</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li>📞 <a href="tel:+216842320">+216 842 320</a></li>
+                        <li>📧 contact@immobilierbudgetplus.tn</li>
+                        <li>📍 Tunis, Tunisie</li>
+                        <li>🕐 Lun-Dim: 8h-20h</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 IMMOBILIER BUDGET PLUS - Tous droits réservés</p>
+                <p class="footer-dev">Site développé avec ❤️ pour votre succès</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bouton WhatsApp flottant -->
+    <a href="https://wa.me/216842320?text=Bonjour,%20je%20souhaite%20des%20informations%20sur%20vos%20biens%20immobiliers" 
+       class="whatsapp-float" target="_blank" title="Contactez-nous sur WhatsApp">
+        <span class="whatsapp-icon">📱</span>
+    </a>
+
+    <!-- Bouton retour en haut -->
+    <button id="scrollTop" class="scroll-top" onclick="scrollToTop()">↑</button>
+
+    <script src="script.js"></script>
+</body>
+</html>
